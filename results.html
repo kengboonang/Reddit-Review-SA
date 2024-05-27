@@ -1,0 +1,22 @@
+<html lang="en">
+    <head>
+        <title>Review Scraping Results</title>
+    </head>
+
+    <body>
+        <h1>Scraped Reviews and Sentiments</h1>
+        <table border="1">
+            <tr>
+                <th>Review</th>
+                <th>Sentiment</th>
+            </tr>
+            {% for review, sentiment in reviews %}
+            <tr>
+                <td>{{ review }}</td>
+                <td>{{ sentiment }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/">Review something else</a>
+    </body>
+</html>
