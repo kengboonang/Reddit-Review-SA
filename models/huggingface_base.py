@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-sentiment_pipeline = pipeline("sentiment-analysis")
+sentiment_pipeline = pipeline(task="sentiment-analysis")
 
 def analyze_sentiment(reviews):
     sentiments = []
