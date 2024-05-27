@@ -1,4 +1,8 @@
-apify_client
+botasaurus==4.0.14
+python-dotenv
 flask
 requests
+torch
+torchaudio
+torchvision
 transformers
