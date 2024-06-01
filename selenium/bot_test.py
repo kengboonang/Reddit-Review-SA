@@ -18,8 +18,9 @@ for _ in range(10):  # Adjust the range for more scrolling
 
 
 elem = driver.find_elements(By.CSS_SELECTOR, "div[data-post-click-location='text-body'] p")
-for element in elem:
-    print(element.text)
+# for element in elem:
+#     print(element.text)
+print(elem)
 # elem.clear()
 # elem.send_keys("pycon")
 # elem.send_keys(Keys.RETURN)
