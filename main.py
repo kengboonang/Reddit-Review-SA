@@ -4,7 +4,7 @@ import json
 
 from dotenv import load_dotenv
 from flask import Flask, request, render_template
-from models.huggingface_base import analyze_sentiment
+from models.huggingface_base import analyze_sentiment, prepare_reviews
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template(__name__, template_folder='index.html')
+    return render_template("index.html", template_folder='templates')
 
 # scraping code
 @app.route('/scrape', methods=['POST'])
@@ -25,10 +25,10 @@ def scrape():
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get(url)
     # ensure that url is from reddit
-    try:
-        assert "reddit" in driver.title
-    except AssertionError:
-        raise( AssertionError("Please enter a valid Reddit URL"))
+    # try:
+    #     assert "reddit" in driver.title
+    # except AssertionError:
+    #     raise( AssertionError("Please enter a valid Reddit URL"))
     
     # Scroll down to load more content
     for _ in range(10):
@@ -36,7 +36,9 @@ def scrape():
         time.sleep(2)
     
     elements = driver.find_elements(By.CSS_SELECTOR, "div[data-post-click-location='text-body'] p")
-    return elements
+    reviews = prepare_reviews(elements)
+    sentiments = analyze_sentiment(reviews)
+    return render_template('results.html', reviews=zip(reviews, sentiments), template_folder='templates')
 
 if __name__ == '__main__':
     load_dotenv()
