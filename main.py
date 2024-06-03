@@ -38,7 +38,9 @@ def scrape():
     elements = driver.find_elements(By.CSS_SELECTOR, "div[data-post-click-location='text-body'] p")
     reviews = prepare_reviews(elements)
     sentiments = analyze_sentiment(reviews)
-    return render_template('results.html', reviews=zip(reviews, sentiments), template_folder='templates')
+    pos_count = len([1 for sentiment in sentiments if sentiment["label"] == 'POSITIVE'])
+    neg_count = len([1 for sentiment in sentiments if sentiment["label"] == 'NEGATIVE'])
+    return render_template('results.html', reviews=zip(reviews, sentiments), pos_count=pos_count, neg_count=neg_count, template_folder='templates')
 
 if __name__ == '__main__':
     load_dotenv()
