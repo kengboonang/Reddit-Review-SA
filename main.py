@@ -4,12 +4,16 @@ import json
 
 from dotenv import load_dotenv
 from flask import Flask, request, render_template
-from models.huggingface_base import analyze_sentiment, prepare_reviews
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time 
 from webdriver_manager.chrome import ChromeDriverManager
+
+# from models.huggingface_base import analyze_sentiment
+from utils.web_processing import prepare_reviews
+from utils.BERT_processing import tokenize_function
+from models.saved_model import model, tokenizer, predict_sentiment
 
 app = Flask(__name__)
 
@@ -37,7 +41,13 @@ def scrape():
     
     elements = driver.find_elements(By.CSS_SELECTOR, "div[data-post-click-location='text-body'] p")
     reviews = prepare_reviews(elements)
-    sentiments = analyze_sentiment(reviews)
+    # huggingface_base.py
+    # sentiments = analyze_sentiment(reviews)
+
+    # saved model
+    encodings = reviews.map(lambda x: tokenize_function(x, tokenizer))
+    sentiments = encodings.map(lambda x: predict_sentiment(x, model))
+
     pos_count = len([1 for sentiment in sentiments if sentiment["label"] == 'POSITIVE'])
     neg_count = len([1 for sentiment in sentiments if sentiment["label"] == 'NEGATIVE'])
     return render_template('results.html', reviews=zip(reviews, sentiments), pos_count=pos_count, neg_count=neg_count, template_folder='templates')
