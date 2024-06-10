@@ -1,7 +1,11 @@
-python-dotenv
+accelerate
+datasets
+evaluate
 flask
-selenium
+huggingface_hub
+python-dotenv
 requests
+selenium
 torch
 torchaudio
 torchvision

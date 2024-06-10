@@ -1,18 +1,22 @@
+from dotenv import load_dotenv
+from huggingface_hub import login
+import os
 import torch
-from utils.BERT_processing import tokenize_function
-from transformers import BertForSequenceClassification, BertTokenizer
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, BertTokenizer, BertForSequenceClassification
 
+# Set model name
+model_name = "kbang2021/yelp_polarity_tuned_bert_base_1000"
 
-model_name = "bert-base-cased"
-model_path = "models\saved_models\google_review_finetuned_BERT_model.pt"
-tokenizer_path = "models?saved_models/google_review_BERT_tokenizer"
-model = BertForSequenceClassification.from_pretrained(model_name, num_labels=3)
-model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+# load pre-trained model
+model = BertForSequenceClassification.from_pretrained(model_name)
 model.eval()
-tokenizer = BertTokenizer.from_pretrained(tokenizer_path)
-class_labels = ["negative", "neutral", "positive"]
+
+# load local tokenizer
+tokenizer = BertTokenizer.from_pretrained("./models/yelp_polarity_bert_1000_tokenizer")
+
+class_labels = ["negative", "positive"]
 
 def predict_sentiment(encoding, model):
     output = model(input_ids=encoding["input_ids"].unsqueeze(0), attention_mask=encoding["attention_mask"].unsqueeze(0))
-    _, pred = torch.max(output, dim=1)
+    _, pred = torch.max(output.logits, dim=1)
     return class_labels[pred]

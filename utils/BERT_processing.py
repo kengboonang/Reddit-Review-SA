@@ -4,7 +4,7 @@
 
 def tokenize_function(data, tokenizer, max_len=160):
     encoding = tokenizer.encode_plus(
-        data["text"],
+        data,
         add_special_tokens=True,
         max_length=max_len,
         return_token_type_ids=False,
