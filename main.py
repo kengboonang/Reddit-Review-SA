@@ -35,7 +35,7 @@ def scrape():
     #     raise( AssertionError("Please enter a valid Reddit URL"))
     
     # Scroll down to load more content
-    for _ in range(3):
+    for _ in range(10):
         driver.find_element(By.TAG_NAME, "body").send_keys(Keys.END)
         time.sleep(2)
     
@@ -45,12 +45,14 @@ def scrape():
     # sentiments = analyze_sentiment(reviews)
 
     # saved model
+    # feature -> need to clean for images that return empty strings and contribute to False Positives
     encodings = [tokenize_function(review, tokenizer) for review in reviews]
     sentiments = [predict_sentiment(encoding, model) for encoding in encodings]
     print(sentiments)
 
     pos_count = len([1 for sentiment in sentiments if sentiment == 'positive'])
     neg_count = len([1 for sentiment in sentiments if sentiment == 'negative'])
+    driver.close()
     return render_template('results.html', reviews=zip(reviews, sentiments), pos_count=pos_count, neg_count=neg_count, template_folder='templates')
 
 if __name__ == '__main__':
