@@ -6,6 +6,8 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Bert
 
 # Set model name
 model_name = "kbang2021/yelp_polarity_tuned_bert_base_1000"
+# model_name = "kbang2021/yelp_polarity_tuned_bert_base_10K"
+# model_name = "kbang2021/yelp_polarity_tuned_bert_base_100K"
 
 # load pre-trained model
 model = BertForSequenceClassification.from_pretrained(model_name)
