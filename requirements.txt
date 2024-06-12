@@ -3,6 +3,7 @@ datasets
 evaluate
 flask
 huggingface_hub
+praw
 python-dotenv
 requests
 selenium
