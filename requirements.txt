@@ -7,6 +7,7 @@ praw
 python-dotenv
 requests
 selenium
+streamlit
 torch
 torchaudio
 torchvision
