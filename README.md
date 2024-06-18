@@ -12,6 +12,12 @@ How to use:
 - Streamlit App
     - run "streamlit run streamlit_app.py
 
+- Using Docker
+    - Pull from repo.
+    - Run "docker build -t {image_name}:{version}"
+    - Run "docker run -d -p {port}:8501 --name {webserver_name} {image_name}:{version}"
+    - Visit the webpage at "http://localhost:9090/" in your browser
+
 Current Tech Stack:
 - Sentiment Analysis Model:
   - HuggingFace Base SA
