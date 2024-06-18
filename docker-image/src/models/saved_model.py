@@ -14,7 +14,7 @@ model = BertForSequenceClassification.from_pretrained(model_name)
 model.eval()
 
 # load local tokenizer
-tokenizer = BertTokenizer.from_pretrained("./models/yelp_polarity_bert_1000_tokenizer")
+tokenizer = BertTokenizer.from_pretrained("./models/yelp_polarity_bert_tokenizer")
 
 class_labels = ["negative", "positive"]
 
